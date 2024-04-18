@@ -1,7 +1,15 @@
 input-a.mp4
 input.mp4
 output.mp4
-run.exe
 *.pyc
 __pycache__/
 .vscode/
+/build/
+/dist/
+/.asyffmpeg.egg-info/
+asyffmpeg.egg-info/dependency_links.txt
+asyffmpeg.egg-info/PKG-INFO
+asyffmpeg.egg-info/requires.txt
+asyffmpeg.egg-info/SOURCES.txt
+asyffmpeg.egg-info/top_level.txt
+.gitignore

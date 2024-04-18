@@ -11,10 +11,10 @@ setup(
     ],
     author='drhspfn',
     author_email='jenya.gsta@gmail.com',
-    # description='короткий_опис_пакету',
-    # long_description=open('README.md').read(),
-    # long_description_content_type='text/markdown',
-    # url='посилання_на_репозиторій_проекту',
+    description='A library for asynchronous operation with FFmpeg, providing the ability to track events such as start, end, and encoding progress.',
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/drhspfn/asyffmpeg',
     classifiers=[
         'Programming Language :: Python :: 3',
         'ffmpeg'
