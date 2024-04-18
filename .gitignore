@@ -1,0 +1,7 @@
+input-a.mp4
+input.mp4
+output.mp4
+run.exe
+*.pyc
+__pycache__/
+.vscode/
