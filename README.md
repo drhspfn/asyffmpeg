@@ -2,6 +2,8 @@
 
 AsyFFmpeg is a Python library for interacting asynchronously with FFmpeg to perform various operations on media files.
 
+**Note**: When coding links, photos and more, the progress event will not work. _Progress is available only when encoding a local video file_
+
 ## Installation
 
 To install AsyFFmpeg, run the following command:
