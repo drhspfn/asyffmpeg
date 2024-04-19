@@ -8,6 +8,7 @@ To install AsyFFmpeg, run the following command:
 
 ```bash
 pip install asyffmpeg
+pip install -r requirements.txt --upgrade
 ```
 
 ## Usage
