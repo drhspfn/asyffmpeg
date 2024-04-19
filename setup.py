@@ -17,6 +17,5 @@ setup(
     url='https://github.com/drhspfn/asyffmpeg',
     classifiers=[
         'Programming Language :: Python :: 3',
-        'ffmpeg'
     ],
 )

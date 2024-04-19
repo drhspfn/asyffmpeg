@@ -5,7 +5,7 @@ from .statistic import Statistics
 import aiofiles
 from typing import Awaitable, Callable, Dict, List, Literal, Union
 from .tempf import TempFile
-from ffprobe.ffprobe import FFProbe
+from ffprobe import FFProbe
 
 from .util import convert_to_seconds
 
