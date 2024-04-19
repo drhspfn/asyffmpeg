@@ -15,6 +15,7 @@ pip install -r requirements.txt --upgrade
 An example of how to use the library:
 ```python
 import asyncio
+from datetime import timedelta
 from asyffmpeg import AsyFFmpeg
 
 async def start(input:str, output:str):
