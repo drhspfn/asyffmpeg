@@ -7,7 +7,8 @@ AsyFFmpeg is a Python library for interacting asynchronously with FFmpeg to perf
 To install AsyFFmpeg, run the following command:
 
 ```bash
-pip install asyffmpeg
+pip install asyffmpeg --upgrade
+pip install -r requirements.txt --upgrade
 ```
 
 ## Usage
