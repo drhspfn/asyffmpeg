@@ -2,12 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name='asyffmpeg',
-    version='0.1',
+    version='0.2.1',
     packages=find_packages(),
     install_requires=[
         'aiofiles',
-        'ffprobe',
-        # Додайте інші залежності, які необхідні для вашого пакету
+        'ffprobe-python',
     ],
     author='drhspfn',
     author_email='jenya.gsta@gmail.com',
