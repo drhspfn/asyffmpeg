@@ -6,6 +6,7 @@ __pycache__/
 .vscode/
 /build/
 /dist/
+/tests/
 /.asyffmpeg.egg-info/
 asyffmpeg.egg-info/dependency_links.txt
 asyffmpeg.egg-info/PKG-INFO
@@ -13,3 +14,6 @@ asyffmpeg.egg-info/requires.txt
 asyffmpeg.egg-info/SOURCES.txt
 asyffmpeg.egg-info/top_level.txt
 .gitignore
+test2.py
+setup.py
+requirements.txt

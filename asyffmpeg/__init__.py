@@ -1,6 +1,7 @@
 import asyncio
 from datetime import timedelta, datetime
 import logging
+import os
 from .statistic import Statistics
 import aiofiles
 from typing import Awaitable, Callable, Dict, List, Literal, Union
@@ -88,7 +89,8 @@ class AsyFFmpeg:
         Returns:
             `None`
         """
-        args = ['-y', '-i', self._input]
+
+        args = ['-y', '-i', self._input if self._input.strip().find(" ") == -1 else f'"{self._input}"']
 
         if self._args:
             for key, value in self._args.items():
@@ -157,8 +159,7 @@ class AsyFFmpeg:
         Returns:
             `None`
         """
-        self._args = args
-
+        self._args = {key: value.strip().replace(" ", "") if isinstance(value, str) else value for key, value in args.items()}
 
     async def read_progress(self, progress_file_path: str) -> None:
         """
@@ -220,12 +221,21 @@ class AsyFFmpeg:
         Returns:
             `None`
         """
-        ffprobe = FFProbe(self._input)
+        try:
+            ffprobe = FFProbe(self._input)
+            self.file_framerate = ffprobe.streams[0].framerate
+            self.file_duration = convert_to_seconds(ffprobe.metadata['Duration'])
+            
+            del ffprobe
+
+
+        except (OSError, IndexError):
+            self._debug("Кreading progress is not possible ")
+            self.file_framerate = -1
+            self.file_duration = -1
+
         
-        self.file_framerate = ffprobe.streams[0].framerate
-        self.file_duration = convert_to_seconds(ffprobe.metadata['Duration'])
         
-        del ffprobe
 
     def on_event(self, event:Literal['progress', 'start', 'end'], func):
         """Event wiretaps
@@ -270,22 +280,40 @@ class AsyFFmpeg:
         self.__build_command()
         self.__start_time = datetime.now()
         async with TempFile() as progress_file_path:
-            print(progress_file_path.file.name)
+            
             self._debug("Encoding started...")
             async def _run(args_list, f_path):
                 if self.__events.get('start', None):
                     await self.__events['start'](self._input, self._output)
 
+                cmd = ["ffmpeg"] + [str(var) for var in args_list]
+                if self.file_duration != -1:
+                    cmd +=  ["-progress", f_path]
+                
                 proc = await asyncio.create_subprocess_exec(
-                    "ffmpeg", *args_list, "-progress", f"{f_path}",
+                    *cmd,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE
                 )
-                await proc.communicate()
+                stdout, stderr = await proc.communicate()
+                # print(stdout.decode())
+                # stderr.decode()
+                
+                
 
+                if proc.returncode != 0:
+                    self._debug(f"FFmpeg process exited with non-zero code: {proc.returncode}")
+
+                if self.__events.get('end', None):
+                    await self.__events['end'](datetime.now() - self.__start_time)
+                
+                return stdout, stderr
+
+            
             tasks = []
-        
             tasks.append(asyncio.create_task(_run(self._args, str(progress_file_path))))
-            tasks.append(asyncio.create_task(self.read_progress(str(progress_file_path))))
+            if self.file_duration != -1:
+                tasks.append(asyncio.create_task(self.read_progress(str(progress_file_path))))
             await asyncio.gather(*tasks)
+
     
